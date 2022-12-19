@@ -1,3 +1,3 @@
 <template>
-  <h1>Hello vue</h1>
+  <h1 class="mt-8 text-center text-6xl">Hello vue</h1>
 </template>
