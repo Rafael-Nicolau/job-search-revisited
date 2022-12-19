@@ -1,6 +1,4 @@
-import { describe, it, expect } from 'vitest';
-
-import { evenOrOdd } from '@/playground';
+import { evenOrOdd, multiply } from '@/playground';
 
 describe('basic math', () => {
   it('should adds two numbers', () => {
@@ -18,6 +16,12 @@ describe('basic math', () => {
       it('should return that the number is odd', () => {
         expect(evenOrOdd(3)).toBe('Odd');
       });
+    });
+  });
+
+  describe('multiply', () => {
+    it('should multiply two numbers together', () => {
+      expect(multiply(2, 3)).toBe(6);
     });
   });
 });
