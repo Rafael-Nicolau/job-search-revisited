@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/vue';
 
-import TheSubnav from '@/components/TheSubnav.vue';
+import TheSubnav from '@/components/navigation/TheSubnav.vue';
 
 const renderMainNav = (boolean) => {
   render(TheSubnav, {
