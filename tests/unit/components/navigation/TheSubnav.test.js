@@ -2,17 +2,19 @@ import { render, screen } from '@testing-library/vue';
 
 import TheSubnav from '@/components/navigation/TheSubnav.vue';
 
-const renderMainNav = (boolean) => {
+const $route = (location = 'Home') => {
+  return { name: location };
+};
+
+const renderSubnav = (boolean, location) => {
   render(TheSubnav, {
     global: {
       stubs: {
         FontAwesomeIcon: true,
       },
-    },
-    data() {
-      return {
-        onJobResultsPage: boolean,
-      };
+      mocks: {
+        $route: $route(location),
+      },
     },
   });
 };
@@ -20,18 +22,18 @@ const renderMainNav = (boolean) => {
 describe('TheSubnav', () => {
   describe('When user is on Jobs page', () => {
     it('should displays the job count', () => {
-      renderMainNav(true);
+      renderSubnav(true, 'JobResults');
 
-      const jobCount = screen.getByText('404');
+      const jobCount = screen.getByText('jobs Matched');
       expect(jobCount).toBeInTheDocument();
     });
   });
 
   describe('When user is NOT on Jobs page', () => {
     it('should NOT displays the job count', () => {
-      renderMainNav(false);
+      renderSubnav(false);
 
-      const jobCount = screen.queryByText('404');
+      const jobCount = screen.queryByText('jobs Matched');
       expect(jobCount).not.toBeInTheDocument();
     });
   });
