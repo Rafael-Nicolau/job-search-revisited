@@ -29,7 +29,7 @@ describe('TheSubnav', () => {
   describe('When user is on Jobs page', () => {
     it('should displays the job count', async () => {
       renderSubnav(true, 'JobResults');
-      jobStore.FILTERED_JOBS_BY_ORGANIZATIONS = Array(16).fill({});
+      jobStore.FILTERED_JOBS = Array(16).fill({});
 
       const jobCount = await screen.findByText('16');
       expect(jobCount).toBeInTheDocument();
