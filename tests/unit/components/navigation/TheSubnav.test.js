@@ -1,10 +1,15 @@
 import { render, screen } from '@testing-library/vue';
+import { createTestingPinia } from '@pinia/testing';
+
+import { useJobsStore } from '@/stores/jobs';
 
 import TheSubnav from '@/components/navigation/TheSubnav.vue';
 
 const $route = (location = 'Home') => {
   return { name: location };
 };
+const pinia = createTestingPinia();
+const jobStore = useJobsStore();
 
 const renderSubnav = (boolean, location) => {
   render(TheSubnav, {
@@ -12,6 +17,7 @@ const renderSubnav = (boolean, location) => {
       stubs: {
         FontAwesomeIcon: true,
       },
+      plugins: [pinia],
       mocks: {
         $route: $route(location),
       },
@@ -21,10 +27,11 @@ const renderSubnav = (boolean, location) => {
 
 describe('TheSubnav', () => {
   describe('When user is on Jobs page', () => {
-    it('should displays the job count', () => {
+    it('should displays the job count', async () => {
       renderSubnav(true, 'JobResults');
+      jobStore.FILTERED_JOBS_BY_ORGANIZATIONS = Array(16).fill({});
 
-      const jobCount = screen.getByText('jobs Matched');
+      const jobCount = await screen.findByText('16');
       expect(jobCount).toBeInTheDocument();
     });
   });
