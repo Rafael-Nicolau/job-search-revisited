@@ -6,19 +6,17 @@ import { createTestingPinia } from '@pinia/testing';
 import MainNav from '@/components/navigation/MainNav.vue';
 import { useUserStore } from '@/stores/user';
 
+import { useRoute } from 'vue-router';
+vi.mock('vue-router');
+
 describe('MainNav', () => {
   const renderMainNav = () => {
     //const pinia = createTestingPinia({ stubActions: false }); //will use the REAL store
     const pinia = createTestingPinia();
-    const $route = {
-      name: 'Home',
-    };
+    useRoute.mockReturnValue({ name: 'Home' });
     render(MainNav, {
       global: {
         plugins: [pinia], //will use pinia
-        mocks: {
-          $route,
-        },
         stubs: {
           FontAwesomeIcon: true,
           RouterLink: RouterLinkStub,

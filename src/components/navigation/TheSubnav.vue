@@ -8,21 +8,26 @@
           jobs Matched</span
         >
       </div>
+      <div v-else>
+        <router-link :to="{ name: 'JobResults' }"
+          ><span class="text-brand-blue-2">Go to Job Pages</span></router-link
+        >
+      </div>
     </div>
   </div>
 </template>
 
-<script>
-import { mapState } from 'pinia';
-import { useJobsStore, FILTERED_JOBS } from '@/stores/jobs';
+<script setup>
+import { useRoute } from 'vue-router';
+import { useJobsStore } from '@/stores/jobs';
+import { computed } from 'vue';
 
-export default {
-  name: 'TheSubnav',
-  computed: {
-    ...mapState(useJobsStore, [FILTERED_JOBS]),
-    onJobResultsPage() {
-      return this.$route.name === 'JobResults';
-    },
-  },
-};
+const route = useRoute();
+
+const jobsStore = useJobsStore();
+
+const onJobResultsPage = computed(() => route.name === 'JobResults');
+const FILTERED_JOBS = computed(() => {
+  return jobsStore.FILTERED_JOBS;
+});
 </script>
