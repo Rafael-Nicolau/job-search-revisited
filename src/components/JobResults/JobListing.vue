@@ -53,12 +53,13 @@
   </li>
 </template>
 
-<script setup>
-import { computed } from 'vue';
+<script setup lang="ts">
+import { computed, type PropType } from 'vue';
+import type { Job } from '@/api/types';
 
 const props = defineProps({
   job: {
-    type: Object,
+    type: Object as PropType<Job>,
     required: true,
   },
 });

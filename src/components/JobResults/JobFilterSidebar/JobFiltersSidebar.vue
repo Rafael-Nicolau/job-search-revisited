@@ -24,9 +24,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
-import ActionButton from '../../shared/ActionButton.vue';
+import ActionButton from '../../Shared/ActionButton.vue';
 import JobFiltersSidebarCheckboxGroup from './JobFiltersSidebarCheckboxGroup.vue';
 
 import { useJobsStore } from '@/stores/jobs';

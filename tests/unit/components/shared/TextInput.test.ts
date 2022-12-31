@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 
-import TextInput from '@/components/shared/TextInput.vue';
+import TextInput from '@/components/Shared/TextInput.vue';
 
 describe('TextInput', () => {
   it('should communicate that user has entered character', async () => {

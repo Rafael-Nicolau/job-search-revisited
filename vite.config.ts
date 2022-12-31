@@ -1,3 +1,4 @@
+/// <reference types='vitest' />
 import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig } from 'vite';
@@ -9,7 +10,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: ['./tests/setup.js'],
+    setupFiles: ['./tests/setup.ts'],
   },
   resolve: {
     alias: {

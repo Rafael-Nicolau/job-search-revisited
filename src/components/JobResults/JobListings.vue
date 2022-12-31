@@ -28,19 +28,21 @@
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import JobListing from './JobListing.vue';
 import { useJobsStore } from '@/stores/jobs';
 
-import usePreviousAndNextPages from '@/composables/usePreviousAndNextPages.js';
+import usePreviousAndNextPages from '@/composables/usePreviousAndNextPages';
 
 const jobsStore = useJobsStore();
 onMounted(jobsStore.FETCH_JOBS);
 
 const route = useRoute();
-const currentPage = computed(() => Number.parseInt(route.query.page || '1'));
+const currentPage = computed(() =>
+  Number.parseInt((route.query.page as string) || '1')
+);
 
 const FILTERED_JOBS = computed(() => jobsStore.FILTERED_JOBS);
 const maxPage = computed(() => Math.ceil(FILTERED_JOBS.value.length / 10));

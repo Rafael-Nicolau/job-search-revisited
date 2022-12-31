@@ -30,11 +30,11 @@
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import ActionButton from '@/components/shared/ActionButton.vue';
-import TextInput from '../shared/TextInput.vue';
+import ActionButton from '@/components/Shared/ActionButton.vue';
+import TextInput from '../Shared/TextInput.vue';
 
 const router = useRouter();
 

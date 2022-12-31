@@ -1,9 +1,13 @@
 import { createPinia, setActivePinia } from 'pinia';
+import type { Mock } from 'vitest';
 import axios from 'axios';
+import type { Job } from '@/api/types';
 import { useJobsStore } from '@/stores/jobs';
 import { useUserStore } from '@/stores/user';
+import { createJob } from 'tests/utils/createJob';
 
 vi.mock('axios');
+const axiosGetMock = axios.get as Mock;
 
 describe('state', () => {
   beforeEach(() => {
@@ -23,7 +27,7 @@ describe('actions', () => {
 
   describe('FETCH_JOBS', () => {
     it('should make API request and store received jobs', async () => {
-      axios.get.mockResolvedValue({ data: ['Job 1', 'Job 2'] });
+      axiosGetMock.mockResolvedValue({ data: ['Job 1', 'Job 2'] });
       const store = useJobsStore();
       await store.FETCH_JOBS();
       expect(store.jobs).toEqual(['Job 1', 'Job 2']);
@@ -40,9 +44,9 @@ describe('Getters', () => {
     it('finds unique organizations from list of jobs', () => {
       const store = useJobsStore();
       store.jobs = [
-        { organization: 'Google' },
-        { organization: 'Amazon' },
-        { organization: 'Google' },
+        createJob({ organization: 'Google' }),
+        createJob({ organization: 'Amazon' }),
+        createJob({ organization: 'Google' }),
       ];
 
       const results = store.UNIQUE_ORGANIZATIONS;
@@ -58,7 +62,7 @@ describe('Getters', () => {
         { jobType: 'Full-Time' },
         { jobType: 'Temporary' },
         { jobType: 'Full-Time' },
-      ];
+      ] as Job[];
 
       const result = store.UNIQUE_JOB_TYPES;
 
@@ -72,13 +76,9 @@ describe('Getters', () => {
         const userStore = useUserStore();
         userStore.selectedOrganizations = [];
         const store = useJobsStore();
-        const jobs = [
-          { organization: 'Google' },
-          { organization: 'Amazon' },
-          { organization: 'Google' },
-        ];
+        const job = { organization: 'Google' } as Job;
 
-        const result = store.INCLUDE_JOB_BY_ORGANIZATION(jobs);
+        const result = store.INCLUDE_JOB_BY_ORGANIZATION(job);
 
         expect(result).toBe(true);
       });
@@ -88,7 +88,7 @@ describe('Getters', () => {
       const userStore = useUserStore();
       userStore.selectedOrganizations = ['Google', 'Amazon'];
       const store = useJobsStore();
-      const jobs = { organization: 'Google' };
+      const jobs = { organization: 'Google' } as Job;
 
       const result = store.INCLUDE_JOB_BY_ORGANIZATION(jobs);
 
@@ -100,15 +100,11 @@ describe('Getters', () => {
     describe('when the user has not selected any JobType', () => {
       it('should show all jobs', () => {
         const userStore = useUserStore();
-        userStore.selectedJobType = [];
+        userStore.selectedJobTypes = [];
         const store = useJobsStore();
-        const jobs = [
-          { jobType: 'Full-Time' },
-          { jobType: 'Part-Time' },
-          { jobType: 'Full-Time' },
-        ];
+        const job = { jobType: 'Full-Time' } as Job;
 
-        const result = store.INCLUDE_JOB_BY_JOB_TYPE(jobs);
+        const result = store.INCLUDE_JOB_BY_JOB_TYPE(job);
 
         expect(result).toBe(true);
       });
@@ -116,11 +112,11 @@ describe('Getters', () => {
 
     it('should identify if job is associated with given JobType', () => {
       const userStore = useUserStore();
-      userStore.selectedJobType = ['Full-Time', 'Part-Time'];
+      userStore.selectedJobTypes = ['Full-Time', 'Part-Time'];
       const store = useJobsStore();
-      const jobs = { organization: 'Full-Time' };
+      const job = { jobType: 'Full-Time' } as Job;
 
-      const result = store.INCLUDE_JOB_BY_JOB_TYPE(jobs);
+      const result = store.INCLUDE_JOB_BY_JOB_TYPE(job);
 
       expect(result).toBe(true);
     });
