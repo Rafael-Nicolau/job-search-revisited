@@ -121,4 +121,30 @@ describe('Getters', () => {
       expect(result).toBe(true);
     });
   });
+
+  describe('INCLUDE_JOB_BY_DEGREE', () => {
+    describe('when the user has not selected any Degrees', () => {
+      it('should show all jobs', () => {
+        const userStore = useUserStore();
+        userStore.selectedDegrees = [];
+        const store = useJobsStore();
+        const job = createJob();
+
+        const result = store.INCLUDE_JOB_BY_DEGREE(job);
+
+        expect(result).toBe(true);
+      });
+    });
+
+    it('should identify if job is associated with given degrees', () => {
+      const userStore = useUserStore();
+      userStore.selectedDegrees = ['Master'];
+      const store = useJobsStore();
+      const job = { degree: 'Master' } as Job;
+
+      const result = store.INCLUDE_JOB_BY_DEGREE(job);
+
+      expect(result).toBe(true);
+    });
+  });
 });

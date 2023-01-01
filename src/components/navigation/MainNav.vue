@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user';
 
-import ActionButton from '../shared/ActionButton.vue';
+import ActionButton from '../Shared/ActionButton.vue';
 import ProfileImage from './ProfileImage.vue';
 import TheSubnav from './TheSubnav.vue';
 import { ref, computed } from 'vue';
@@ -60,7 +60,7 @@ const menuItems = ref([
 ]);
 
 const userStore = useUserStore();
-const loginUser = userStore.loginUser;
+const loginUser = userStore.LOGIN_USER;
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 
 const headerHeightClass = computed(() => ({

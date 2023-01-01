@@ -1,6 +1,7 @@
 <template>
   <main class="flex-auto bg-brand-gray-2 p-8">
-    <ol>
+    <h1 v-if="displayedJobs.length === 0">No jobs for selected filters</h1>
+    <ol v-else>
       <job-listing v-for="job in displayedJobs" :key="job.id" :job="job" />
     </ol>
     <div class="mx-auto mt-8">
@@ -35,9 +36,12 @@ import JobListing from './JobListing.vue';
 import { useJobsStore } from '@/stores/jobs';
 
 import usePreviousAndNextPages from '@/composables/usePreviousAndNextPages';
+import { useDegreeStore } from '@/stores/degrees';
 
 const jobsStore = useJobsStore();
+const degreeStore = useDegreeStore();
 onMounted(jobsStore.FETCH_JOBS);
+onMounted(degreeStore.FETCH_DEGREES);
 
 const route = useRoute();
 const currentPage = computed(() =>
