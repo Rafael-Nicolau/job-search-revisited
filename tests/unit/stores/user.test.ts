@@ -20,6 +20,11 @@ describe('state', () => {
     const store = useUserStore();
     expect(store.selectedJobTypes).toEqual([]);
   });
+
+  it('should store degrees that the user would like to filter jobs by', () => {
+    const store = useUserStore();
+    expect(store.selectedDegrees).toEqual([]);
+  });
 });
 
 describe('actions', () => {
@@ -30,7 +35,7 @@ describe('actions', () => {
   describe('loginUser', () => {
     it('should log the user in', () => {
       const store = useUserStore();
-      store.loginUser();
+      store.LOGIN_USER();
       expect(store.isLoggedIn).toBe(true);
     });
   });
@@ -48,6 +53,29 @@ describe('actions', () => {
       const store = useUserStore();
       store.ADD_SELECTED_JOB_TYPES(['full time', 'part-time']);
       expect(store.selectedJobTypes).toEqual(['full time', 'part-time']);
+    });
+  });
+
+  describe('ADD_SELECTED_DEGREES', () => {
+    it('should update degrees that the user has chosen to filter jobs by', () => {
+      const store = useUserStore();
+      store.ADD_SELECTED_DEGREES(['Master', 'Bachelor']);
+      expect(store.selectedDegrees).toEqual(['Master', 'Bachelor']);
+    });
+  });
+
+  describe('CLEAR_USER_JOB_FILTER_SELECTIONS', () => {
+    it('should remove all job filters that the user has chosen', () => {
+      const store = useUserStore();
+      store.selectedDegrees = ['test sample'];
+      store.selectedJobTypes = ['test sample'];
+      store.selectedOrganizations = ['test sample'];
+
+      store.CLEAR_USER_JOB_FILTER_SELECTIONS();
+
+      expect(store.selectedDegrees).toEqual([]);
+      expect(store.selectedJobTypes).toEqual([]);
+      expect(store.selectedOrganizations).toEqual([]);
     });
   });
 });
