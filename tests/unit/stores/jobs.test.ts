@@ -147,4 +147,41 @@ describe('Getters', () => {
       expect(result).toBe(true);
     });
   });
+
+  describe('INCLUDE_JOB_BY_SKILL', () => {
+    it('should identify if job matches user inputted skill search term', () => {
+      const userStore = useUserStore();
+      userStore.skillsSearchTerm = 'Vue';
+      const store = useJobsStore();
+      const job = createJob({ title: 'Vue Developer' });
+
+      const result = store.INCLUDE_JOB_BY_SKILL(job);
+
+      expect(result).toBe(true);
+    });
+
+    it('should handle inconsistent character casing', () => {
+      const userStore = useUserStore();
+      userStore.skillsSearchTerm = 'vue';
+      const store = useJobsStore();
+      const job = createJob({ title: 'Vue Developer' });
+
+      const result = store.INCLUDE_JOB_BY_SKILL(job);
+
+      expect(result).toBe(true);
+    });
+
+    describe('when the user has not entered any skill', () => {
+      it('should includes job', () => {
+        const userStore = useUserStore();
+        userStore.skillsSearchTerm = '';
+        const store = useJobsStore();
+        const job = createJob({ title: 'Vue Developer' });
+
+        const result = store.INCLUDE_JOB_BY_SKILL(job);
+
+        expect(result).toBe(true);
+      });
+    });
+  });
 });
